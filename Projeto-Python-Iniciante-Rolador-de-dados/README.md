@@ -1,0 +1,1 @@
+Esté é um programa simples de rolagem de dados. Pra quem gosta de RPG.
