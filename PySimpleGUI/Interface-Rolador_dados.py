@@ -1,4 +1,7 @@
 import PySimpleGUI as sg
+import random
+
+
 
 class TelaRolaDados:
     def __init__(self):
@@ -21,18 +24,22 @@ class TelaRolaDados:
         #Janela
         self.janela = sg.Window('Rolador de Dados').layout(layout)
 
-    
     def Iniciar(self):
-        while True:
+        while True:          
             #Extrair dados da Tela
-            self.button, self.values = self.janela.Read()        
+            self.event, self.values = self.janela.Read()
+            dado = self.event
+ 
+            if dado == 'd4' or 'd6' or 'd8' or 'd10' or 'd12' or 'd20' or 'd100':
+                rolagem = random.choice(list(range(1,int(dado[1:])+1)))
+                print(rolagem) 
+
             n_de_dados = self.values['n de dados']
-        #    d4 = self.values['d4']
             normal = self.values['normal']
             vantagem = self.values['vantagem']
             desvantagem = self.values['desvantagem']
+        
             print(f'n de dados: {n_de_dados}')
-        #    print(f'd4: {d4}')
             print(f'normal: {normal}')
             print(f'vantagem: {vantagem}')
             print(f'desvantagem: {desvantagem}')
