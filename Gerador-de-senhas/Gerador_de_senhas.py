@@ -13,6 +13,7 @@ class TelaGeradorSenha:
             [sg.Text('Site:'), sg.Input(key='site')],
             [sg.Text('Loggin:'), sg.Input(key='loggin')],
             [sg.Text('Número de Caracteres:'), sg.Input(size=(4,0), default_text=1, key='tamanho')],
+            [sg.Output(size=(42,5))],
             [sg.Button('Gerar')]]
         self.janela = sg.Window('Rolador de Dados').layout(layout)
 
@@ -21,7 +22,7 @@ class TelaGeradorSenha:
 
         self.aleatorio = random.choice(lista)
         return self.aleatorio
-    
+
     def Construcao(self, tamanho, letras = None, numeros = None, caracteres = None):
     # -- CONSTROI A SENHA COM STRINGS GERADAS ALEATORIAMENTE PODENDO CONTER LETRAS E/OU NÚMEROS E/OU CARACTERES ESPECIAIS      
 
@@ -36,6 +37,7 @@ class TelaGeradorSenha:
         elif numeros and not letras and not caracteres:
             for i in range(int(tamanho)):
                 senha = senha + gera.GeradorAleatorio(lista_numeros)
+                
         elif caracteres and not numeros and not letras:
             for i in range(int(tamanho)):
                 senha = senha + gera.GeradorAleatorio(lista_especiais)
@@ -82,7 +84,12 @@ class TelaGeradorSenha:
 
             senha = gera.Construcao(n_caracteres, letras, numeros, caracteres)
             gera.GravarArquivo(site_saida, senha, loggin_saida)
-
+            
+            print('Site: ', site_saida)
+            print('Loggin: ', loggin_saida)
+            print('Senha: ', senha)
+            print()
+            
     # -- FALTA FAZER:
     # -- GARANTIR QUE HAJA AO MENOS 1 CARACTERE PARA CADA TIPO ESCOLHIDO (LETRAS, NÚMEROS E CARACTERES ESPECIAIS)
     #    DE ACORDO COM O NÚMERO DE CARACTERES DEFINIDO
