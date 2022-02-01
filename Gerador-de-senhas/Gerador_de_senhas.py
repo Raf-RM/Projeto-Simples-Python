@@ -21,7 +21,40 @@ class TelaGeradorSenha:
     # -- SELECIONA UM ITEM ALEATÓRIO DE UMA LISTA
 
         self.aleatorio = random.choice(lista)
-        return self.aleatorio
+        return self.aleatorio  
+
+    def VerificaLetras(self, lista_letras_total, senha):
+    # -- VERIFICA SE A SENHA CONTEM AO MENOS UM ITEM DO TIPO LETRAS
+
+        for i in range(len(lista_letras_total)):
+            if lista_letras_total[i] in list(senha):
+                letras_verificado = True
+                break 
+            else:
+                letras_verificado = False
+        return letras_verificado
+
+    def VerificaNumeros(self, lista_numeros, senha):
+    # -- VERIFICA SE A SENHA CONTEM AO MENOS UM ITEM DO TIPO NUMEROS
+
+        for i in range(len(lista_numeros)):
+            if lista_numeros[i] in list(senha):
+                numeros_verificado = True
+                break 
+            else:
+                numeros_verificado = False
+        return numeros_verificado        
+
+    def VerificaEspeciais(self, lista_especiais, senha):
+    # -- VERIFICA SE A SENHA CONTEM AO MENOS UM ITEM DO TIPO CARACTERES ESPECIAIS
+
+        for i in range(len(lista_especiais)):
+            if lista_especiais[i] in list(senha):
+                especiais_verificado = True
+                break 
+            else:
+                especiais_verificado = False
+        return especiais_verificado
 
     def Construcao(self, tamanho, letras = None, numeros = None, caracteres = None):
     # -- CONSTROI A SENHA COM STRINGS GERADAS ALEATORIAMENTE PODENDO CONTER LETRAS E/OU NÚMEROS E/OU CARACTERES ESPECIAIS      
@@ -34,29 +67,43 @@ class TelaGeradorSenha:
         if letras and not numeros and not caracteres:
             for i in range(int(tamanho)):
                 senha = senha + gera.GeradorAleatorio(lista_letras_total)
+     
         elif numeros and not letras and not caracteres:
             for i in range(int(tamanho)):
-                senha = senha + gera.GeradorAleatorio(lista_numeros)
-                
+                senha = senha + gera.GeradorAleatorio(lista_numeros)               
+       
         elif caracteres and not numeros and not letras:
             for i in range(int(tamanho)):
                 senha = senha + gera.GeradorAleatorio(lista_especiais)
+      
         elif letras and numeros and not caracteres:
             lista_total = lista_letras_total + lista_numeros
-            for i in range(int(tamanho)):
-                senha = senha + gera.GeradorAleatorio(lista_total)
+            while not self.VerificaLetras(lista_letras_total,senha) or not self.VerificaNumeros(lista_numeros, senha):
+                senha = ''
+                for i in range(int(tamanho)):
+                    senha = senha + gera.GeradorAleatorio(lista_total) 
+     
         elif letras and caracteres and not numeros:
             lista_total = lista_letras_total + lista_especiais 
-            for i in range(int(tamanho)):
-                senha = senha + gera.GeradorAleatorio(lista_total)
+            while not self.VerificaLetras(lista_letras_total,senha) or not self.VerificaEspeciais(lista_especiais, senha):
+                senha = ''
+                for i in range(int(tamanho)):
+                    senha = senha + gera.GeradorAleatorio(lista_total)             
+      
         elif caracteres and numeros and not letras:
             lista_total = lista_numeros + lista_especiais 
-            for i in range(int(tamanho)):
-                senha = senha + gera.GeradorAleatorio(lista_total)
+            while not self.VerificaNumeros(lista_numeros, senha) or not self.VerificaEspeciais(lista_especiais, senha):
+                senha = ''
+                for i in range(int(tamanho)):
+                    senha = senha + gera.GeradorAleatorio(lista_total) 
+      
         elif letras and numeros and caracteres:
             lista_total = lista_letras_total + lista_numeros + lista_especiais 
-            for i in range(int(tamanho)):
-                senha = senha + gera.GeradorAleatorio(lista_total)
+            while not self.VerificaLetras(lista_letras_total,senha) or not self.VerificaNumeros(lista_numeros, senha) or not self.VerificaEspeciais(lista_especiais, senha):
+                senha = ''
+                for i in range(int(tamanho)):
+                    senha = senha + gera.GeradorAleatorio(lista_total)                    
+      
         return senha
 
     def GravarArquivo(self, site, senha, loggin = None,):
@@ -69,7 +116,6 @@ class TelaGeradorSenha:
         arquivo.write('\n')
         arquivo.close() 
  
-
     def Iniciar(self):
     # -- INICIA O PROGRAMA LÊ AS ENTRADAS E CHAMA AS DEMAIS FUNÇÕES
 
@@ -91,8 +137,6 @@ class TelaGeradorSenha:
             print()
             
     # -- FALTA FAZER:
-    # -- GARANTIR QUE HAJA AO MENOS 1 CARACTERE PARA CADA TIPO ESCOLHIDO (LETRAS, NÚMEROS E CARACTERES ESPECIAIS)
-    #    DE ACORDO COM O NÚMERO DE CARACTERES DEFINIDO
     # -- GARANTIR QUE O MESMO SITE/LOGGIN NÃO SEJA REGISTRADO COM SENHAS DIFERENTES. 
            
 
